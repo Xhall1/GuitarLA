@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Guitar } from './components/Guitar';
 import { Header } from './components/Header';
 import { db } from './data/db';
+import { Footer } from './components/Footer';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
 
         </div>
       </main>
+      <Footer />
     </>
   )
 }
