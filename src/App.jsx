@@ -18,7 +18,7 @@ function App() {
           {data.map((guitar) => (
             <Guitar
               key={guitar.id}
-              guitar={guitar}
+              guitar={guitar} // Puede ser nombrado como sea
             />
           )
           )}
