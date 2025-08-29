@@ -1,16 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Guitar } from "./components/Guitar";
 import { Header } from "./components/Header";
 import { db } from "./data/db";
 import { Footer } from "./components/Footer";
 
 function App() {
+  const initialCart = () => {
+    const localStorageCart = localStorage.getItem('cart')
+    return localStorageCart ? JSON.parse(localStorageCart) : []
+  }
   const [data, setData] = useState(db);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(initialCart);
 
   const MAX_QUANTITY = 5;
-
   const MIN_QUANTITY = 0;
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   function addToCart(item) {
     const itemExist = cart.findIndex((guitar) => guitar.id === item.id);
@@ -22,6 +29,9 @@ function App() {
       item.quantity = 1;
       setCart([...cart, item]);
     }
+
+    saveLocalStorage();
+    console.log("adding to cart", item);
   }
 
   function removeFromCart(id) {
@@ -59,6 +69,11 @@ function App() {
   function clearCart() {
     setCart([])
   }
+
+  function saveLocalStorage() {
+    localStorage.setItem('cart', cart)
+  }
+
   return (
     <>
       <Header
@@ -78,6 +93,7 @@ function App() {
               guitar={guitar}
               setCart={setCart}
               addToCart={addToCart}
+              clearCart={clearCart}
             />
           ))}
         </div>
